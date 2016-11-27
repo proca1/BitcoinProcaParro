@@ -43,7 +43,7 @@ CREATE TABLE Tx_input(
 	CONSTRAINT txin PRIMARY KEY (txid,vout)
 );
 
-CREATE TABLE Output(
+CREATE TABLE Tx_output(
 	txid varchar (35) NOT NULL REFERENCES Transaction (txid),
 	value FLOAT NOT NULL,
 	n INTEGER  NOT NULL,
