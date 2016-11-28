@@ -35,12 +35,13 @@ CREATE TABLE Transaction(
 );
 
 CREATE TABLE Tx_input(
+	txid_prev varchar  NOT NULL REFERENCES Transaction(txid),
 	txid varchar  NOT NULL REFERENCES Transaction(txid),
 	vout INTEGER NOT NULL,
 	asm varchar  NOT NULL,
 	hex varchar NOT NULL,
 	sequence INTEGER NOT NULL,
-	CONSTRAINT txin PRIMARY KEY (txid,vout)
+	CONSTRAINT txin PRIMARY KEY (txid_prev,vout)
 );
 
 CREATE TABLE Tx_output(
