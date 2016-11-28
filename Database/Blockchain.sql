@@ -16,10 +16,10 @@ CREATE TABLE  IF NOT EXISTS blockchainSchema.Block(
 	mediantime BIGINT NOT NULL,
 	nonce BIGINT NOT NULL,
 	bits varchar NOT NULL,
-	difficulty DOUBLE NOT NULL,
+	difficulty NUMERIC NOT NULL,
 	chainwork varchar NOT NULL,
-	previousblockhash varchar NOT NULL REFERENCES blockchainSchema.Block (hash),
-	nextblockhash varchar NOT NULL REFERENCES blockchainSchema.Block (hash)
+	previousblockhash varchar REFERENCES blockchainSchema.Block (hash),
+	nextblockhash varchar REFERENCES blockchainSchema.Block (hash)
 );
 
 CREATE TABLE  IF NOT EXISTS blockchainSchema.Transaction(
