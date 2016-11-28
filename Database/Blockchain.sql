@@ -1,3 +1,4 @@
+CREATE DATABASE blockchain;
 \c blockchain
 CREATE SCHEMA IF NOT EXISTS blockchainSchema;
 
