@@ -53,7 +53,7 @@ CREATE TABLE  IF NOT EXISTS blockchainSchema.Tx_output(
 	asm varchar NOT NULL,
 	hex varchar NOT NULL,
 	reqSigs BIGINT  NOT NULL,
-	type varchar (35) NOT NULL,
-	addresses varchar (35) NOT NULL,
+	type varchar NOT NULL,
+	addresses varchar NOT NULL,
 	CONSTRAINT txout PRIMARY KEY (txid,n)
 );
