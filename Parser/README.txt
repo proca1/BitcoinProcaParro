@@ -1,0 +1,1 @@
+ATTENZIONE, questi scraper funzionano solo su linux

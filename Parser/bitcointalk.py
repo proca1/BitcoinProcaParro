@@ -3,7 +3,7 @@
 from sys import exit
 from time import sleep
 from bitcoin_functions import *
-import urllib.request, urllib.error
+import urllib
 import csv, re, os
 
 try:
@@ -14,15 +14,15 @@ except:
 	min_userid = 1
 
 try:
-	html = urllib.request.urlopen('https://bitcointalk.org/index.php?action=stats').read().decode('ISO-8859-1')
-except urllib.error.URLError as e:
+	html = urllib.urlopen('https://bitcointalk.org/index.php?action=stats').read().decode('ISO-8859-1')
+except urllib.URLError as e:
 	print(e.reason)
 	exit(1)
 
 result = re.search(r";u=([0-9]+)", html)
 max_userid = int(result.group(1))
 
-with open('../Lists/bitcointalk.csv', 'a') as f:
+with open('bitcointalk.csv', 'a') as f:
 	writer = csv.writer(f)
 
 	for userid in range(min_userid, max_userid+1):
@@ -30,8 +30,8 @@ with open('../Lists/bitcointalk.csv', 'a') as f:
 		sleep(1)
 		print("Now scraping user %d..." % userid)
 		try:
-			html = urllib.request.urlopen('https://bitcointalk.org/index.php?action=profile;u=%d' % userid).read().decode('ISO-8859-1')
-		except urllib.error.URLError as e:
+			html = urllib.urlopen('https://bitcointalk.org/index.php?action=profile;u=%d' % userid).read().decode('ISO-8859-1')
+		except urllib.URLError as e:
 			f.flush()
 			f.close()
 			print(e.reason)
@@ -48,13 +48,13 @@ with open('../Lists/bitcointalk.csv', 'a') as f:
 
 		except:
 			continue
-
+		writer.writerow([address, user, userid])
+		f.flush()
 		if not isBTCAddress(address):
 			continue
 
-		writer.writerow([address, user, userid])
-		f.flush()
 
-os.system("cp ../Lists/bitcointalk.csv /tmp/temp-bitcointalk.csv")
-os.system("cat /tmp/temp-bitcointalk.csv | sort | uniq > ../Lists/bitcointalk.csv")
-os.system("rm -f /tmp/temp-bitcointalk.csv")
+
+os.system("cp bitcointalk.csv ./tmp/temp-bitcointalk.csv")
+os.system("cat ./tmp/temp-bitcointalk.csv | sort | uniq > bitcointalk.csv")
+os.system("rm -f ./tmp/temp-bitcointalk.csv")

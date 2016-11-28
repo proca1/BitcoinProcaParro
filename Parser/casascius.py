@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import urllib.request
+import urllib
 import json
 import csv
 import os
@@ -9,17 +9,17 @@ from bitcoin_functions import isBTCAddress
 urls = ['http://casascius.uberbills.com/api/?status=active', 'http://casascius.uberbills.com/api/?status=opened']
 
 try:
-	os.remove('../Lists/casascius.csv')
+	os.remove('casascius.csv')
 except:
 	pass
 
 for url in urls:
-	res = urllib.request.urlopen(url)
-	coins = json.loads(res.readall().decode('utf-8'))
+	res = urllib.urlopen(url)
+	coins = json.loads(res.read().decode('utf-8'))
 
 	print(len(coins), "coins retrieved.")
 
-	with open('../Lists/casascius.csv', 'a') as f:
+	with open('casascius.csv', 'a') as f:
 		writer = csv.writer(f)
 
 		for coin in coins:
@@ -32,5 +32,5 @@ for url in urls:
 			if coin_type == 'o1':
 				coin_type = '0.1'
 
-			if len(coin_type) > 0 and isBTCAddress(address):
+			if len(coin_type) > 0:
 				writer.writerow([address, coin_type])
