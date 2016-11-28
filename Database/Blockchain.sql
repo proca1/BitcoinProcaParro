@@ -1,6 +1,7 @@
 \c blockchain
+CREATE SCHEMA IF NOT EXISTS blockchainSchema;
 
-CREATE TABLE Block(
+CREATE TABLE  IF NOT EXISTS blockchainSchema.Block(
 	hash varchar NOT NULL PRIMARY KEY,
 	confirmations INTEGER NOT NULL,
 	strippedsize  INTEGER NOT NULL,
@@ -16,11 +17,11 @@ CREATE TABLE Block(
 	bits varchar NOT NULL,
 	difficulty INTEGER NOT NULL,
 	chainwork varchar NOT NULL,
-	previousblockhash varchar NOT NULL REFERENCES Block (hash),
-	nextblockhash varchar NOT NULL REFERENCES Block (hash)
+	previousblockhash varchar NOT NULL REFERENCES blockchainSchema.Block (hash),
+	nextblockhash varchar NOT NULL REFERENCES blockchainSchema.Block (hash)
 );
 
-CREATE TABLE Transaction(
+CREATE TABLE  IF NOT EXISTS blockchainSchema.Transaction(
 	hex varchar NOT NULL,
 	txid varchar NOT NULL  PRIMARY KEY,
 	hash varchar NOT NULL,
@@ -28,15 +29,15 @@ CREATE TABLE Transaction(
 	vsize INTEGER NOT NULL,
 	version INTEGER  NOT NULL,
 	locktime INTEGER  NOT NULL,
-	blockhash varchar NOT NULL  REFERENCES Block(hash),
+	blockhash varchar NOT NULL  REFERENCES blockchainSchema.Block(hash),
 	confirmations INTEGER NOT NULL,
 	time INTEGER  NOT NULL,
 	blocktime INTEGER  NOT NULL
 );
 
-CREATE TABLE Tx_input(
-	txid_prev varchar  NOT NULL REFERENCES Transaction(txid),
-	txid varchar  NOT NULL REFERENCES Transaction(txid),
+CREATE TABLE  IF NOT EXISTS blockchainSchema.Tx_input(
+	txid_prev varchar  NOT NULL REFERENCES blockchainSchema.Transaction(txid),
+	txid varchar  NOT NULL REFERENCES blockchainSchema.Transaction(txid),
 	vout INTEGER NOT NULL,
 	asm varchar  NOT NULL,
 	hex varchar NOT NULL,
@@ -44,8 +45,8 @@ CREATE TABLE Tx_input(
 	CONSTRAINT txin PRIMARY KEY (txid_prev,vout)
 );
 
-CREATE TABLE Tx_output(
-	txid varchar NOT NULL REFERENCES Transaction (txid),
+CREATE TABLE  IF NOT EXISTS blockchainSchema.Tx_output(
+	txid varchar NOT NULL REFERENCES blockchainSchema.Transaction (txid),
 	value FLOAT NOT NULL,
 	n INTEGER  NOT NULL,
 	asm varchar NOT NULL,
